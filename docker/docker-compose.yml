@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  scaling-advisor:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8082:8080" 
+    environment:
+      - GRAPHITE_HOST=graphite
+    depends_on:
+      - graphite
+
+  graphite:
+    image: graphiteapp/graphite-statsd:latest
+    ports:
+      - "2005:2003" 
+      - "8083:80"   
+    volumes:
+      - graphite_data:/opt/graphite/storage
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"  
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  graphite_data:
+  grafana_data:
