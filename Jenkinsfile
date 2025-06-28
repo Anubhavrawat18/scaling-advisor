@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        maven 'Maven'
+        maven 'Maven'         // Make sure these names match Jenkins config
         jdk 'JDK-21'
     }
     
@@ -75,7 +75,7 @@ pipeline {
                 echo '🏥 Performing health check...'
                 script {
                     sleep(time: 30, unit: 'SECONDS')
-                    sh 'curl -f http://localhost:8080/api/health || exit 1'
+                    sh 'curl -f http://localhost:8082/api/health || exit 1'
                     echo "✅ Application is healthy!"
                 }
             }
